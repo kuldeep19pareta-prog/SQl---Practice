@@ -1,0 +1,322 @@
+# SQL Practice – GROUP BY, HAVING, ORDER BY & Date Functions (Set 9)
+
+![SQL](https://img.shields.io/badge/SQL-Group%20By-blue?style=for-the-badge)
+![Level](https://img.shields.io/badge/Level-Intermediate-success?style=for-the-badge)
+![Questions](https://img.shields.io/badge/Questions-50-orange?style=for-the-badge)
+
+## 📖 Overview
+
+This repository contains **50 SQL practice questions** focused on **GROUP BY**, **HAVING**, **ORDER BY**, **WHERE**, **Aggregate Functions**, **Multi-Column GROUP BY**, and **Date Functions**.
+
+The exercises are based on a sample **Employees** table containing **50 records** and are designed to strengthen SQL aggregation and reporting skills.
+
+> 📌 Practice Source: SQL Practice Workbook (Set 9) :contentReference[oaicite:0]{index=0}
+
+---
+
+# Topics Covered
+
+- GROUP BY
+- Aggregate Functions
+  - COUNT()
+  - SUM()
+  - AVG()
+  - MAX()
+  - MIN()
+- ORDER BY
+- HAVING Clause
+- WHERE + GROUP BY
+- Multi-Column GROUP BY
+- Date Functions
+  - YEAR()
+  - MONTH()
+  - QUARTER()
+- COUNT(DISTINCT)
+
+---
+
+# Questions & Solutions
+
+
+
+Q1. Count the total number of employees in each department.
+
+select dept, count(*) as TotalEmployees from Employees group by dept;
+
+Q2. Find the total salary paid in each department.
+
+select dept, sum(salary) as TotalSalary from Employees group by dept;
+
+Q3. Find the average salary by gender.
+
+select gender, avg(salary) as AvgSalary from Employees group by gender;
+
+Q4. Find the maximum salary in each department.
+
+select dept, max(salary) as MaxSalary from Employees group by dept;
+
+Q5. Find the minimum salary in each role.
+
+select role, min(salary) as MinSalary from Employees group by role;
+
+Q6. Count the number of employees in each city.
+
+select city, count(*) as EmpCount from Employees group by city;
+
+Q7. Find the total salary paid per region.
+
+select region, sum(salary) as TotalSalary from Employees group by region;
+
+Q8. List departments sorted by their average salary (highest first).
+
+select dept, avg(salary) as AvgSalary from Employees group by dept order by AvgSalary desc;
+
+Q9. List cities by total salary, ascending.
+
+select city, sum(salary) as TotalSalary from Employees group by city order by TotalSalary;
+
+Q10. List roles sorted by employee count descending, then role name ascending.
+
+select role, count(*) as EmpCount from Employees group by role order by EmpCount desc, role;
+
+Q11. List states with their employee count, sorted by count descending then state name.
+
+select state, count(*) as EmpCount from Employees group by state order by EmpCount desc, state;
+
+Q12. Show the total salary per region, ordered from highest to lowest.
+
+select region, sum(salary) as TotalSalary from Employees group by region order by TotalSalary desc;
+
+Q13. List departments sorted by minimum salary descending.
+
+select dept, min(salary) as MinSalary from Employees group by dept order by MinSalary desc;
+
+Q14. Show only departments with more than 10 employees.
+
+select dept, count(*) as EmpCount from Employees group by dept having count(*) > 10;
+
+Q15. Show departments where the average salary exceeds 65000.
+
+select dept, avg(salary) as AvgSalary from Employees group by dept having avg(salary) > 65000;
+
+Q16. Show cities where total salary exceeds 600000.
+
+select city, sum(salary) as TotalSalary from Employees group by city having sum(salary) > 600000;
+
+Q17. Show roles with more than 7 employees.
+
+select role, count(*) as EmpCount from Employees group by role having count(*) > 7;
+
+Q18. Show regions where the average salary is below 70000.
+
+select region, avg(salary) as AvgSalary from Employees group by region having avg(salary) < 70000;
+
+Q19. Show departments where the max salary is at least 90000.
+
+select dept, max(salary) as MaxSalary from Employees group by dept having max(salary) >= 90000;
+
+Q20. Show states where total headcount is more than 12.
+
+select state, count(*) as EmpCount from Employees group by state having count(*) > 12;
+
+Q21. Show cities where the minimum salary is above 60000.
+
+select city, min(salary) as MinSalary from Employees group by city having min(salary) > 60000;
+
+Q22. Count employees grouped by department AND city.
+
+select dept, city, count(*) as EmpCount from Employees group by dept, city;
+
+Q23. Find average salary grouped by department AND gender.
+
+select dept, gender, avg(salary) as AvgSalary from Employees group by dept, gender;
+
+Q24. Count employees grouped by region AND role.
+
+select region, role, count(*) as EmpCount from Employees group by region, role;
+
+Q25. Find max salary grouped by state AND department.
+
+select state, dept, max(salary) as MaxSalary from Employees group by state, dept;
+
+Q26. Find total salary grouped by city AND gender.
+
+select city, gender, sum(salary) as TotalSalary from Employees group by city, gender;
+
+Q27. Count employees per department, city, and show groups with more than 2 employees (HAVING).
+
+select dept, city, count(*) as EmpCount from Employees group by dept, city having count(*) > 2;
+
+Q28. Find average salary grouped by region AND gender, ordered by region and avg salary descending.
+
+select region, gender, avg(salary) as AvgSalary from Employees group by region, gender order by region, AvgSalary desc;
+
+Q29. Count employees grouped by state AND role, show only combinations with more than 1 employee.
+
+select state, role, count(*) as EmpCount from Employees group by state, role having count(*) > 1;
+
+Q30. Count how many employees joined in each year.
+
+select year(JoinDate) as JoinYear, count(*) as Joiners from Employees group by year(JoinDate); 
+
+Q31. Find average salary of employees grouped by the year they joined.
+
+select year(JoinDate) as JoinYear, avg(salary) as AvgSalary from Employees group by year(JoinDate);
+
+Q32. Count how many employees joined in each month (across all years).
+
+select month(JoinDate) as JoinMonth, count(*) as Joiners from Employees group by month(JoinDate);
+
+Q33. Find total salary grouped by quarter of the join date.
+
+select quarter(JoinDate) as JoinQtr, sum(salary) as TotalSalary from Employees group by quarter(JoinDate);
+
+Q34. Count employees who joined in Q1 (Jan–Mar) versus Q3 (Jul–Sep).
+
+select quarter(JoinDate) as Qtr, count(*) as Joiners from Employees where quarter(JoinDate) in (1,3) group by quarter(JoinDate);
+
+Q35. Show the year and department with headcount, ordered by year and dept.
+
+select year(JoinDate) as JoinYear, dept, count(*) as EmpCount from Employees group by year(JoinDate), dept order by JoinYear, dept;
+
+Q36. Show years where more than 6 employees joined.
+
+select year(JoinDate) as JoinYear, count(*) as Joiners from Employees group by year(JoinDate) having count(*) > 6;
+
+Q37. Find the average salary for employees joining in each quarter, show only quarters with avg salary above 70000.
+
+select quarter(JoinDate) as Qtr, avg(salary) as AvgSalary from Employees group by quarter(JoinDate) having avg(salary) > 70000;
+
+Q38. Find the number of employees and average salary per state.
+
+select state, count(*) as EmpCount, avg(salary) as AvgSalary from Employees group by state;
+
+Q39. Find the department with highest headcount in each state.
+
+select state, dept, count(*) as EmpCount from Employees group by state, dept order by state, EmpCount desc;
+
+Q40. Show cities with more than 2 departments represented.
+
+select city, count(distinct dept) as DeptCount from Employees group by city having count(distinct dept) > 2;
+
+Q41. Find the total salary bill per region AND state.
+
+select region, state, sum(salary) as TotalSalary from Employees group by region, state;
+
+Q42. Show regions with more than 10 employees AND average salary above 67000.
+
+select region, count(*) as EmpCount, avg(salary) as AvgSalary from Employees group by region having count(*) > 10 and avg(salary) > 67000;
+
+Q43. Count distinct roles available in each city.
+
+select city, count(distinct role) as UniqueRoles from Employees group by city;
+
+Q44. Count employees per department, but only consider female employees.
+
+select dept, count(*) as FemaleCount from Employees where gender='F' group by dept;
+
+Q45. Find average salary per department for employees who joined after 2019-01-01.
+
+select dept, avg(salary) as AvgSalary from Employees where JoinDate > '2019-01-01' group by dept;
+
+Q46. Find total salary per city for employees in the IT department only.
+
+select city, sum(salary) as TotalSalary from Employees where dept='IT' group by city;
+
+Q47. Count employees per role for those with salary above 70000.
+
+select role, count(*) as EmpCount from Employees where salary > 70000 group by role;
+
+Q48. Show the max salary per department, only for employees in the South or West region.
+
+select dept, max(salary) as MaxSalary from Employees where region in ('South','West') group by dept;
+
+Q49. Count employees per year of joining for Texas (TX) state only.
+
+select year(JoinDate) as JoinYear, count(*) as EmpCount from Employees where state='TX' group by year(JoinDate);
+
+Q50. Find departments where more than 3 female employees have salaries above 60000.
+
+select dept, count(*) as EligibleFemales from Employees where gender='F' and salary > 60000 group by dept having count(*) > 3;
+
+
+
+
+
+# Concepts Practiced
+
+✔ GROUP BY
+
+✔ HAVING
+
+✔ ORDER BY
+
+✔ Aggregate Functions
+
+✔ COUNT(DISTINCT)
+
+✔ YEAR()
+
+✔ MONTH()
+
+✔ QUARTER()
+
+✔ Multi-column GROUP BY
+
+✔ SQL Reporting Queries
+
+---
+
+# Dataset
+
+Table Used:
+
+```sql
+Employees
+```
+
+Columns:
+
+- EmpID
+- Name
+- Dept
+- Role
+- Salary
+- Gender
+- JoinDate
+- Address
+- City
+- State
+- Region
+
+The dataset contains **50 employee records** for practicing SQL aggregation queries. :contentReference[oaicite:1]{index=1}
+
+---
+
+# Repository Structure
+
+```
+SQL-GroupBy-Set9/
+│
+├── README.md
+├── Employees.sql
+├── Questions.sql
+└── Solutions.sql
+```
+
+---
+
+# Learning Outcomes
+
+After completing this practice set, you will be able to:
+
+- Write efficient GROUP BY queries
+- Use aggregate functions effectively
+- Filter grouped results using HAVING
+- Sort aggregated data with ORDER BY
+- Analyze data using YEAR(), MONTH(), and QUARTER()
+- Build SQL reports for real-world business scenarios
+
+---
+
+## ⭐ If you found this repository helpful, don't forget to Star it!
